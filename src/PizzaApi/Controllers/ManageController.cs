@@ -26,7 +26,7 @@ namespace PizzaApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBook()
+        public async Task<IActionResult> AddPizza()
         {
             return Ok(await _pizzaService.AddAsync("Test"));
         }

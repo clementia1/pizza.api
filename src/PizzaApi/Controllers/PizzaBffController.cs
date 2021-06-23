@@ -26,7 +26,7 @@ namespace PizzaApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBook(int id)
+        public async Task<IActionResult> GetPizza(int id)
         {
             return Ok(await _pizzaService.GetAsync(id));
         }
