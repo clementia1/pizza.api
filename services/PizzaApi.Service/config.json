@@ -1,0 +1,9 @@
+{
+  "PizzaApi": {
+    "ConnectionString": "server=168.62.49.228;port=5433;database=books;uid=postgres;password=postgres;"
+  },
+  "Redis": {
+    "Host": "168.62.49.228:6380",
+    "CacheTimeout": "00:00:10"
+  }
+}

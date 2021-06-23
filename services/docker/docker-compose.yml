@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  pizzaapi.service:
+    image: pizzaapiservice
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    environment:
+      PizzaApi__ConnectionString: 'server=168.62.49.228;port=5433;database=pizzas;uid=postgres;password=postgres;'
+    ports:
+      - 5006:80
