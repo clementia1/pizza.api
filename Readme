@@ -3,7 +3,7 @@ docker-compose build --no-cache
 docker-compose up   
    
 #Add-Migration
-dotnet ef --startup-project services/BookApi.Service migrations add InitialMigration --project src/BookApi 
+dotnet ef --startup-project services/PizzaApi.Service migrations add InitialMigration --project src/PizzaApi 
 
 #Update-Migration
-dotnet ef --startup-project services/BookApi.Service database update InitialMigration --project src/BookApi
+dotnet ef --startup-project services/PizzaApi.Service database update InitialMigration --project src/PizzaApi
