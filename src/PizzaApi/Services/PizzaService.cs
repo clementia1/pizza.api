@@ -32,7 +32,7 @@ namespace PizzaApi.Services
         {
             var result = await _pizzaProvider.GetById(id);
 
-            return new GetPizzaResponse() { Id = result.Id, Name = result.Name };
+            return result is null ? null : new GetPizzaResponse() { Id = result.Id, Name = result.Name };
         }
     }
 }

@@ -7,6 +7,6 @@ namespace PizzaApi.DataProviders.Abstractions
     public interface IPizzaProvider
     {
         Task<PizzaEntity> AddAsync(string name);
-        Task<PizzaEntity> GetById(int id);
+        Task<PizzaEntity?> GetById(int id);
     }
 }

@@ -24,7 +24,7 @@ namespace PizzaApi.DataProviders
             return result.Entity;
         }
 
-        public async Task<PizzaEntity> GetById(int id)
+        public async Task<PizzaEntity?> GetById(int id)
         {
             var result = await _pizzasDbContext.Pizzas.SingleOrDefaultAsync(item => item.Id == id);
             return result;
