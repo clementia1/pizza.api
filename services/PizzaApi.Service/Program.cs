@@ -24,7 +24,7 @@ namespace PizzaApi.Service
                     webBuilder.UseStartup<Startup>();
                     webBuilder.UseKestrel(opts =>
                     {
-                        opts.Listen(IPAddress.Loopback, port: 5000);
+                        opts.Listen(IPAddress.Any, port: 5000);
                     });
 
                 });
