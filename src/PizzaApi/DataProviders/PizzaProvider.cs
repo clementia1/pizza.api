@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PizzaApi.Data;
 using PizzaApi.Data.Entities;
 using PizzaApi.DataProviders.Abstractions;
@@ -21,6 +22,12 @@ namespace PizzaApi.DataProviders
             await _pizzasDbContext.SaveChangesAsync();
 
             return result.Entity;
+        }
+
+        public async Task<PizzaEntity> GetById(int id)
+        {
+            var result = await _pizzasDbContext.Pizzas.SingleOrDefaultAsync(item => item.Id == id);
+            return result;
         }
     }
 }

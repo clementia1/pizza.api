@@ -28,7 +28,8 @@ namespace PizzaApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPizza(int id)
         {
-            return Ok(await _pizzaService.GetAsync(id));
+            var item = await _pizzaService.GetAsync(id);
+            return item is null ? NotFound() : Ok(item);
         }
     }
 }

@@ -30,9 +30,9 @@ namespace PizzaApi.Services
 
         public async Task<GetPizzaResponse?> GetAsync(int id)
         {
-            var cache = await _cacheService.GetAsync(id, "userName");
+            var result = await _pizzaProvider.GetById(id);
 
-            return cache != null ? new GetPizzaResponse() { Id = cache.Id, Name = cache.Name } : null;
+            return new GetPizzaResponse() { Id = result.Id, Name = result.Name };
         }
     }
 }
