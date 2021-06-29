@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using PizzaApi.Data;
 using PizzaApi.Data.Cache;
 using PizzaApi.DataProviders;
 using PizzaApi.DataProviders.Abstractions;
+using PizzaApi.Middleware;
 using PizzaApi.Services;
 using PizzaApi.Services.Abstractions;
 
@@ -32,6 +34,15 @@ namespace PizzaApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<RateLimitMiddleware>(c =>
+                {
+                    c.BaseAddress = new Uri(AppConfiguration["IpRateLimiting:Url"]);
+                    c.DefaultRequestHeaders.Add("Accept", "application/json");
+                    c.DefaultRequestHeaders.Add("Origin", "PizzaApi");
+                    c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactoryPizzaApi");
+                })
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -65,6 +76,7 @@ namespace PizzaApi
                         "PizzaApi v1"));
             }
 
+            app.UseMiddleware<RateLimitMiddleware>();
             app.UseRouting();
             app.UseEndpoints(builder => builder.MapDefaultControllerRoute());
         }
