@@ -58,8 +58,7 @@ namespace PizzaApi.Services
             }
         }
 
-        private string GetItemCacheKey(int id, string userName) =>
-            $"{userName}_{id:N}";
+        private string GetItemCacheKey(int id, string userName) => $"{userName}_{id:N}";
 
         private async Task AddOrUpdateInternalAsync(TCacheEntity entity, string userName, IDatabase? redis = null, TimeSpan? expiry = null)
         {
