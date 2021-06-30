@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PizzaApi.Configuration;
+using PizzaApi.Filters;
 using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.Controllers
@@ -25,6 +26,7 @@ namespace PizzaApi.Controllers
             _config = config.Value;
         }
 
+        [ServiceFilter(typeof(RateLimitAsyncResourceFilter))]
         [HttpGet]
         public async Task<IActionResult> GetPizza(int id)
         {

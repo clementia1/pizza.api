@@ -32,9 +32,8 @@ namespace PizzaApi.Middleware
             var remoteIp = context.Connection.RemoteIpAddress?.ToString();
             var path = context.Request.Path.Value;
 
-            var request = new CheckRateLimitRequest { RemoteIp = remoteIp, RequestPath = path };
-            var limit = _client.PostAsJsonAsync("/CheckLimit", request);
-            _logger.LogCritical(limit.Result.StatusCode.GetDisplayName());
+            var request = new CheckRateLimitRequest { RemoteIp = remoteIp, RequestedUrl = path };
+            var limit = _client.PostAsJsonAsync("/Check", request);
             await _next.Invoke(context);
         }
     }

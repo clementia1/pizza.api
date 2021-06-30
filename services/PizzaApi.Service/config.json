@@ -7,28 +7,6 @@
     "CacheTimeout": "00:05:00"
   },
   "IpRateLimiting": {
-    "Url": "http://168.62.49.228:5005/api/v1/RateLimit/",
-    "GeneralRules": [
-      {
-        "Endpoint": "/api/v1/PizzaBff/GetPizza",
-        "Period": "15s",
-        "Limit": 3
-      },
-      {
-        "Endpoint": "*",
-        "Period": "15s",
-        "Limit": 100
-      },
-      {
-        "Endpoint": "*",
-        "Period": "12h",
-        "Limit": 1000
-      },
-      {
-        "Endpoint": "*",
-        "Period": "7d",
-        "Limit": 10000
-      }
-    ]
+    "Url": "http://168.62.49.228:5005/api/v1/RateLimit/Check"
   }
 }

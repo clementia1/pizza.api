@@ -13,6 +13,7 @@ using PizzaApi.Data;
 using PizzaApi.Data.Cache;
 using PizzaApi.DataProviders;
 using PizzaApi.DataProviders.Abstractions;
+using PizzaApi.Filters;
 using PizzaApi.Middleware;
 using PizzaApi.Services;
 using PizzaApi.Services.Abstractions;
@@ -34,14 +35,7 @@ namespace PizzaApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<RateLimitMiddleware>(c =>
-                {
-                    c.BaseAddress = new Uri(AppConfiguration["IpRateLimiting:Url"]);
-                    c.DefaultRequestHeaders.Add("Accept", "application/json");
-                    c.DefaultRequestHeaders.Add("Origin", "PizzaApi");
-                    c.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactoryPizzaApi");
-                })
-                .SetHandlerLifetime(TimeSpan.FromMinutes(5));
+            services.AddHttpClient();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -50,6 +44,7 @@ namespace PizzaApi
                     { Title = "PizzaApi", Version = "v1" });
             });
 
+            services.AddScoped<RateLimitAsyncResourceFilter>();
             services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
             services.AddTransient<ICacheService<PizzaCacheEntity>, CacheService<PizzaCacheEntity>>();
             services.AddTransient<IJsonSerializer, JsonSerializer>();
