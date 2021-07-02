@@ -45,9 +45,11 @@ namespace PizzaApi.Filters
             var response = await client.PostAsJsonAsync(_config.IpRateLimit.Url, checkRateLimitRequest);
 
             _logger.LogInformation($"ratelimit response status code: {response.StatusCode}");
-            if (response.StatusCode is HttpStatusCode.TooManyRequests)
+            if (response?.StatusCode is HttpStatusCode.TooManyRequests)
             {
-                context.Result = new StatusCodeResult(429);
+                _logger.LogInformation($"TooManyRequests");
+
+                // context.Result = new StatusCodeResult(429);
             }
 
             await next();
