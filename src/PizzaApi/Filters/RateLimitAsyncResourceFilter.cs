@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PizzaApi.Configuration;
 using PizzaApi.Models;
@@ -15,13 +16,16 @@ namespace PizzaApi.Filters
     public class RateLimitAsyncResourceFilter : IAsyncActionFilter
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly ILogger<RateLimitAsyncResourceFilter> _logger;
         private readonly Config _config;
 
         public RateLimitAsyncResourceFilter(
             IHttpClientFactory clientFactory,
-            IOptions<Config> config)
+            IOptions<Config> config,
+            ILogger<RateLimitAsyncResourceFilter> logger)
         {
             _clientFactory = clientFactory;
+            _logger = logger;
             _config = config.Value;
         }
 
@@ -37,6 +41,7 @@ namespace PizzaApi.Filters
             client.DefaultRequestHeaders.Add("Origin", "PizzaApi");
             var response = await client.PostAsJsonAsync(_config.IpRateLimit.Url, checkRateLimitRequest);
 
+            _logger.LogInformation($"ratelimit response status code: {response.StatusCode}");
             if (response.StatusCode is HttpStatusCode.TooManyRequests)
             {
                 context.Result = new StatusCodeResult(429);
