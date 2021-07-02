@@ -39,20 +39,19 @@ namespace PizzaApi.Filters
 
             _logger.LogInformation($"RemoteIp: {checkRateLimitRequest.RemoteIp}");
             _logger.LogInformation($"RequestedUrl: {checkRateLimitRequest.RequestedUrl}");
-            _logger.LogInformation($"RateLimitUrl: {_config.IpRateLimit.Url}");
 
             var client = _clientFactory.CreateClient();
             client.DefaultRequestHeaders.Add("Origin", "PizzaApi");
             var response = await client.PostAsJsonAsync(_config.IpRateLimit.Url, checkRateLimitRequest);
 
-            _logger.LogInformation($"RateLimit response status code: {response.StatusCode}");
             if (response.StatusCode is HttpStatusCode.TooManyRequests)
             {
-                _logger.LogInformation($"TooManyRequests");
                 context.Result = new StatusCodeResult(429);
             }
-
-            await next();
+            else
+            {
+                await next();
+            }
         }
     }
 }
