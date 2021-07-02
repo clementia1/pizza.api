@@ -39,6 +39,7 @@ namespace PizzaApi.Filters
 
             _logger.LogInformation($"RemoteIp: {checkRateLimitRequest.RemoteIp}");
             _logger.LogInformation($"RequestedUrl: {checkRateLimitRequest.RequestedUrl}");
+            _logger.LogInformation($"RateLimitUrl: {_config.IpRateLimit.Url}");
 
             var client = _clientFactory.CreateClient();
             client.DefaultRequestHeaders.Add("Origin", "PizzaApi");
