@@ -14,9 +14,9 @@ using PizzaApi.Data.Cache;
 using PizzaApi.DataProviders;
 using PizzaApi.DataProviders.Abstractions;
 using PizzaApi.Filters;
-using PizzaApi.Middleware;
 using PizzaApi.Services;
 using PizzaApi.Services.Abstractions;
+using Serilog;
 
 namespace PizzaApi
 {
@@ -71,7 +71,7 @@ namespace PizzaApi
                         "PizzaApi v1"));
             }
 
-            app.UseMiddleware<RateLimitMiddleware>();
+            app.UseSerilogRequestLogging();
             app.UseRouting();
             app.UseEndpoints(builder => builder.MapDefaultControllerRoute());
         }
