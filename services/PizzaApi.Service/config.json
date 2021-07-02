@@ -6,7 +6,7 @@
     "Host": "168.62.49.228:6380",
     "CacheTimeout": "00:05:00"
   },
-  "IpRateLimiting": {
+  "IpRateLimit": {
     "Url": "http://127.0.0.1:5005/api/v1/RateLimit/Check"
   }
 }
