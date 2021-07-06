@@ -54,8 +54,10 @@ namespace PizzaApi.DataProviders
 
         public async Task<IReadOnlyCollection<PizzaDto?>> GetByPage(int pageNumber, int itemsOnPage)
         {
+            var skippedItems = pageNumber <= 0 ? 0 : (pageNumber - 1) * itemsOnPage;
+
             var result = await _pizzasDbContext.Pizzas.AsNoTracking()
-                .Skip((pageNumber - 1) * itemsOnPage).Take(itemsOnPage)
+                .Skip(skippedItems).Take(itemsOnPage)
                 .Select(pizza => new PizzaDto
                 {
                     Id = pizza.Id,
