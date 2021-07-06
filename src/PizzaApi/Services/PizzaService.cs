@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PizzaApi.Data.Cache;
 using PizzaApi.DataProviders.Abstractions;
@@ -23,16 +24,21 @@ namespace PizzaApi.Services
         {
             var result = await _pizzaProvider.AddAsync(name);
 
-            await _cacheService.AddOrUpdateAsync(new PizzaCacheEntity() { Id = result.Id, Name = name }, "userName");
-
             return new AddPizzaResponse() { Id = result.Id };
         }
 
-        public async Task<GetPizzaResponse?> GetAsync(int id)
+        public async Task<GetPizzaResponse?> GetByIdAsync(int id)
         {
             var result = await _pizzaProvider.GetById(id);
 
-            return result is null ? null : new GetPizzaResponse() { Id = result.Id, Name = result.Name };
+            return result is null ? null : new GetPizzaResponse { Id = result.Id, Name = result.Name };
+        }
+
+        public async Task<GetPizzaPaginationResponse?> GetByPageAsync(int pageNumber, int itemsOnPage)
+        {
+            var result = await _pizzaProvider.GetByPage(pageNumber, itemsOnPage);
+
+            return result is null ? null : new GetPizzaPaginationResponse { Pizza = result };
         }
     }
 }
