@@ -27,9 +27,28 @@ namespace PizzaApi.DataProviders
             return result.Entity;
         }
 
-        public async Task<PizzaEntity?> GetById(int id)
+        public async Task<PizzaDto?> GetById(int id)
         {
-            var result = await _pizzasDbContext.Pizzas.SingleOrDefaultAsync(item => item.Id == id);
+            var result = await _pizzasDbContext.Pizzas.AsNoTracking()
+                .Where(pizza => pizza.Id == id)
+                .Select(pizza => new PizzaDto
+                {
+                    Id = pizza.Id,
+                    Name = pizza.Name,
+                    Slug = pizza.Slug,
+                    Summary = pizza.Summary,
+                    Price = pizza.Price,
+                    Weight = pizza.Weight,
+                    PreviewImageUrl = pizza.PreviewImageUrl,
+                    ImageUrl = pizza.ImageUrl,
+                    Ingredients = pizza.Ingredients.Select(pi => new IngredientDto
+                    {
+                        Id = pi.Ingredient.Id,
+                        Name = pi.Ingredient.Name,
+                        ImageUrl = pi.Ingredient.ImageUrl
+                    }).ToList()
+                }).SingleOrDefaultAsync();
+
             return result;
         }
 
@@ -50,6 +69,7 @@ namespace PizzaApi.DataProviders
                     Ingredients = pizza.Ingredients.Select(pi => new IngredientDto
                     {
                         Id = pi.Ingredient.Id,
+                        Name = pi.Ingredient.Name,
                         ImageUrl = pi.Ingredient.ImageUrl
                     }).ToList()
                 }).ToListAsync();

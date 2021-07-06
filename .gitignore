@@ -439,3 +439,6 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 .idea/config
+
+# Logs
+.services/PizzaApi.Service/pizzaapi_log.txt
