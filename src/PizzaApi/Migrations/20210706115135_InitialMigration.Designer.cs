@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PizzaApi.Data;
@@ -9,9 +10,10 @@ using PizzaApi.Data;
 namespace PizzaApi.Migrations
 {
     [DbContext(typeof(PizzasDbContext))]
-    partial class PizzasDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210706115135_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

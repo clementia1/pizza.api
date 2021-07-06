@@ -1,6 +1,6 @@
 {
   "PizzaApi": {
-    "ConnectionString": "server=168.62.49.228;port=5433;database=pizzas;uid=postgres;password=postgres;"
+    "ConnectionString": "server=168.62.49.228;port=5433;database=pizza;uid=postgres;password=postgres;"
   },
   "Redis": {
     "Host": "168.62.49.228:6380",

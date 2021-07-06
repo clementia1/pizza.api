@@ -54,7 +54,11 @@ namespace PizzaApi
 
             var connectionString = AppConfiguration["PizzaApi:ConnectionString"];
             services.AddDbContext<PizzasDbContext>(
-                opts => opts.UseNpgsql(connectionString));
+                opts =>
+                {
+                    opts.UseNpgsql(connectionString);
+                    opts.UseSnakeCaseNamingConvention();
+                });
 
             services.AddTransient<IPizzaProvider, PizzaProvider>();
             services.AddTransient<IPizzaService, PizzaService>();
