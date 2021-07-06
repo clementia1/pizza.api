@@ -7,6 +7,6 @@ services:
       context: ../../
       dockerfile: Dockerfile
     environment:
-      PizzaApi__ConnectionString: 'server=168.62.49.228;port=5433;database=pizzas;uid=postgres;password=postgres;'
+      PizzaApi__ConnectionString: 'server=168.62.49.228;port=5433;database=pizza;uid=postgres;password=postgres;'
     ports:
       - 5006:5000
