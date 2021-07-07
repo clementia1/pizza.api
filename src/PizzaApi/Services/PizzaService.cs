@@ -11,14 +11,10 @@ namespace PizzaApi.Services
     public class PizzaService : IPizzaService
     {
         private readonly IPizzaProvider _pizzaProvider;
-        private readonly ICacheService<PizzaCacheEntity> _cacheService;
 
-        public PizzaService(
-            IPizzaProvider pizzaProvider,
-            ICacheService<PizzaCacheEntity> cacheService)
+        public PizzaService(IPizzaProvider pizzaProvider)
         {
             _pizzaProvider = pizzaProvider;
-            _cacheService = cacheService;
         }
 
         public async Task<AddPizzaResponse> AddAsync(string name)
