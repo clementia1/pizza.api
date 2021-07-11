@@ -82,6 +82,9 @@ namespace PizzaApi
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
             app.UseRouting();
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
+
             app.UseEndpoints(builder => builder.MapDefaultControllerRoute());
         }
     }
