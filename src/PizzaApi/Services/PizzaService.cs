@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using PizzaApi.Data.Cache;
 using PizzaApi.Data.Entities;
 using PizzaApi.DataProviders.Abstractions;
@@ -11,10 +12,14 @@ namespace PizzaApi.Services
     public class PizzaService : IPizzaService
     {
         private readonly IPizzaProvider _pizzaProvider;
+        private readonly IMapper _mapper;
 
-        public PizzaService(IPizzaProvider pizzaProvider)
+        public PizzaService(
+            IPizzaProvider pizzaProvider,
+            IMapper mapper)
         {
             _pizzaProvider = pizzaProvider;
+            _mapper = mapper;
         }
 
         public async Task<AddPizzaResponse> AddAsync(string name)
@@ -26,7 +31,8 @@ namespace PizzaApi.Services
 
         public async Task<PizzaDto?> GetByIdAsync(int id)
         {
-            return await _pizzaProvider.GetById(id);
+            var entity = await _pizzaProvider.GetById(id);
+            return _mapper.Map<PizzaDto>(entity);
         }
 
         public async Task<GetPizzaPaginationResponse?> GetByPageAsync(int pageNumber, int itemsOnPage)

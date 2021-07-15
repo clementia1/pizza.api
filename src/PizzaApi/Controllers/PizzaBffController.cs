@@ -26,13 +26,14 @@ namespace PizzaApi.Controllers
             _config = config.Value;
         }
 
-        [ServiceFilter(typeof(RateLimitAsyncResourceFilter))]
+        [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
             var item = await _pizzaService.GetByIdAsync(id);
             return item is null ? NotFound() : Ok(item);
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetByPage(int pageNumber, int itemsOnPage = 10)
         {
             var item = await _pizzaService.GetByPageAsync(pageNumber, itemsOnPage);
