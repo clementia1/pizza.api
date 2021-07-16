@@ -36,9 +36,7 @@ namespace PizzaApi.DataProviders
 
         public async Task<PizzaEntity?> GetById(int id)
         {
-            var result = await _pizzasDbContext.Pizzas
-                    .FirstOrDefaultAsync(p => p.Id == id);
-            return result;
+            return await _pizzasDbContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int pageNumber, int itemsOnPage)
