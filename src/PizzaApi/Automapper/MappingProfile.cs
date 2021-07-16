@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using PizzaApi.Data.Entities;
 using PizzaApi.Models;
 
@@ -8,9 +9,12 @@ namespace PizzaApi.Automapper
     {
         public MappingProfile()
         {
-            CreateMap<PizzaEntity, PizzaDto>()
-                .ForMember(dto => dto.Ingredients, option => option.Ignore());
+            CreateMap<PizzaEntity, PizzaDto>();
             CreateMap<IngredientEntity, IngredientDto>();
+            CreateMap<PizzaIngredientEntity, IngredientDto>()
+                .ForMember(p => p.Id, opt => opt.MapFrom(pi => pi.Ingredient.Id))
+                .ForMember(p => p.Name, opt => opt.MapFrom(pi => pi.Ingredient.Name))
+                .ForMember(p => p.ImageUrl, opt => opt.MapFrom(pi => pi.Ingredient.ImageUrl));
         }
     }
 }

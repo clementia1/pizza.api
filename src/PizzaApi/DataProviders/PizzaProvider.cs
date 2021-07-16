@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using PizzaApi.Automapper;
 using PizzaApi.Data;
 using PizzaApi.Data.Entities;
 using PizzaApi.DataProviders.Abstractions;
@@ -13,10 +16,14 @@ namespace PizzaApi.DataProviders
     public class PizzaProvider : IPizzaProvider
     {
         private readonly PizzasDbContext _pizzasDbContext;
+        private readonly IMapper _mapper;
 
-        public PizzaProvider(PizzasDbContext pizzasDbContext)
+        public PizzaProvider(
+            PizzasDbContext pizzasDbContext,
+            IMapper mapper)
         {
             _pizzasDbContext = pizzasDbContext;
+            _mapper = mapper;
         }
 
         public async Task<PizzaEntity> AddAsync(string name)
@@ -29,36 +36,20 @@ namespace PizzaApi.DataProviders
 
         public async Task<PizzaEntity?> GetById(int id)
         {
-            var result = await _pizzasDbContext.PizzaIngredients
-                .Where(pizza => pizza.PizzaId == id)
-                .FirstOrDefaultAsync();
-
+            var result = await _pizzasDbContext.Pizzas
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
             return result;
         }
 
-        public async Task<IReadOnlyCollection<PizzaDto?>> GetByPage(int pageNumber, int itemsOnPage)
+        public async Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int pageNumber, int itemsOnPage)
         {
             var skippedItems = pageNumber <= 0 ? 0 : (pageNumber - 1) * itemsOnPage;
 
-            var result = await _pizzasDbContext.Pizzas.AsNoTracking()
-                .Skip(skippedItems).Take(itemsOnPage)
-                .Select(pizza => new PizzaDto
-                {
-                    Id = pizza.Id,
-                    Name = pizza.Name,
-                    Slug = pizza.Slug,
-                    Summary = pizza.Summary,
-                    Price = pizza.Price,
-                    Weight = pizza.Weight,
-                    PreviewImageUrl = pizza.PreviewImageUrl,
-                    ImageUrl = pizza.ImageUrl,
-                    Ingredients = pizza.Ingredients.Select(pi => new IngredientDto
-                    {
-                        Id = pi.Ingredient.Id,
-                        Name = pi.Ingredient.Name,
-                        ImageUrl = pi.Ingredient.ImageUrl
-                    }).ToList()
-                }).ToListAsync();
+            var result = await _pizzasDbContext.Pizzas
+                .Skip(skippedItems)
+                .Take(itemsOnPage)
+                .ToListAsync();
 
             return result;
         }

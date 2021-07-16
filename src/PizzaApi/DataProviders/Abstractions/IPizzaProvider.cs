@@ -10,6 +10,6 @@ namespace PizzaApi.DataProviders.Abstractions
     {
         Task<PizzaEntity> AddAsync(string name);
         Task<PizzaEntity?> GetById(int id);
-        Task<IReadOnlyCollection<PizzaDto?>> GetByPage(int pageNumber, int itemsOnPage);
+        Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int pageNumber, int itemsOnPage);
     }
 }

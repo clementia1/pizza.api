@@ -37,9 +37,10 @@ namespace PizzaApi.Services
 
         public async Task<GetPizzaPaginationResponse?> GetByPageAsync(int pageNumber, int itemsOnPage)
         {
-            var result = await _pizzaProvider.GetByPage(pageNumber, itemsOnPage);
+            var entities = await _pizzaProvider.GetByPage(pageNumber, itemsOnPage);
+            var dto = _mapper.Map<IReadOnlyCollection<PizzaDto>>(entities);
 
-            return result is null ? null : new GetPizzaPaginationResponse { Pizza = result };
+            return entities is null ? null : new GetPizzaPaginationResponse { Pizza = dto };
         }
     }
 }
