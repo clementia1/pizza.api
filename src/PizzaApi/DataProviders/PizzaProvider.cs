@@ -37,8 +37,7 @@ namespace PizzaApi.DataProviders
         public async Task<PizzaEntity?> GetById(int id)
         {
             var result = await _pizzasDbContext.Pizzas
-                    .Where(p => p.Id == id)
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(p => p.Id == id);
             return result;
         }
 
