@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PizzaApi.Configuration;
+using PizzaApi.Models.Add;
 using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.Controllers
@@ -26,9 +27,9 @@ namespace PizzaApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPizza()
+        public async Task<IActionResult> AddPizza(AddPizzaRequest request)
         {
-            return Ok(await _pizzaService.AddAsync("Test"));
+            return Ok(await _pizzaService.AddAsync(request));
         }
     }
 }

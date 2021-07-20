@@ -19,6 +19,7 @@ using PizzaApi.Filters;
 using PizzaApi.Services;
 using PizzaApi.Services.Abstractions;
 using Serilog;
+using Slugify;
 
 namespace PizzaApi
 {
@@ -37,7 +38,7 @@ namespace PizzaApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(MappingProfile));
+            services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddHttpClient();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -46,7 +47,8 @@ namespace PizzaApi
                     { Title = "PizzaApi", Version = "v1" });
             });
 
-            services.AddScoped<RateLimitAsyncResourceFilter>();
+            services.AddScoped<RateLimit>();
+            services.AddTransient<ISlugHelper, SlugHelper>();
             services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
             services.AddTransient<ICacheService<PizzaCacheEntity>, CacheService<PizzaCacheEntity>>();
             services.AddTransient<IJsonSerializer, JsonSerializer>();

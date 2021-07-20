@@ -26,9 +26,9 @@ namespace PizzaApi.DataProviders
             _mapper = mapper;
         }
 
-        public async Task<PizzaEntity> AddAsync(string name)
+        public async Task<PizzaEntity> AddAsync(PizzaEntity pizza)
         {
-            var result = await _pizzasDbContext.Pizzas.AddAsync(new PizzaEntity() { Name = name });
+            var result = await _pizzasDbContext.Pizzas.AddAsync(pizza);
             await _pizzasDbContext.SaveChangesAsync();
 
             return result.Entity;
@@ -39,16 +39,21 @@ namespace PizzaApi.DataProviders
             return await _pizzasDbContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int pageNumber, int itemsOnPage)
+        public async Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int page, int size)
         {
-            var skippedItems = pageNumber <= 0 ? 0 : (pageNumber - 1) * itemsOnPage;
+            var skippedItems = page <= 0 ? 0 : (page - 1) * size;
 
             var result = await _pizzasDbContext.Pizzas
                 .Skip(skippedItems)
-                .Take(itemsOnPage)
+                .Take(size)
                 .ToListAsync();
 
             return result;
+        }
+
+        public async Task<int> GetTotalCount()
+        {
+            return await _pizzasDbContext.Pizzas.CountAsync();
         }
     }
 }

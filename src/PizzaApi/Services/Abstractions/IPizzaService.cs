@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using PizzaApi.Models;
+using PizzaApi.Models.Add;
+using PizzaApi.Models.GetById;
+using PizzaApi.Models.GetByPage;
 
 namespace PizzaApi.Services.Abstractions
 {
     public interface IPizzaService
     {
-        Task<AddPizzaResponse> AddAsync(string name);
-        Task<PizzaDto?> GetByIdAsync(int id);
-        Task<GetPizzaPaginationResponse?> GetByPageAsync(int pageNumber, int itemsOnPage);
+        Task<AddPizzaResponse> AddAsync(AddPizzaRequest request);
+        Task<GetByIdResponse?> GetByIdAsync(int id);
+        Task<GetByPageResponse?> GetByPageAsync(int pageNumber, int itemsOnPage);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -5,6 +6,9 @@ using PizzaApi.Data.Cache;
 using PizzaApi.Data.Entities;
 using PizzaApi.DataProviders.Abstractions;
 using PizzaApi.Models;
+using PizzaApi.Models.Add;
+using PizzaApi.Models.GetById;
+using PizzaApi.Models.GetByPage;
 using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.Services
@@ -22,25 +26,36 @@ namespace PizzaApi.Services
             _mapper = mapper;
         }
 
-        public async Task<AddPizzaResponse> AddAsync(string name)
+        public async Task<AddPizzaResponse> AddAsync(AddPizzaRequest request)
         {
-            var result = await _pizzaProvider.AddAsync(name);
+            var entity = _mapper.Map<PizzaEntity>(request);
+            var result = await _pizzaProvider.AddAsync(entity);
 
-            return new AddPizzaResponse() { Id = result.Id };
+            return new AddPizzaResponse() { Id = result.Id, Message = "Successfully added to database" };
         }
 
-        public async Task<PizzaDto?> GetByIdAsync(int id)
+        public async Task<GetByIdResponse?> GetByIdAsync(int id)
         {
             var entity = await _pizzaProvider.GetById(id);
-            return _mapper.Map<PizzaDto>(entity);
+            var dto = _mapper.Map<PizzaDto>(entity);
+
+            return new GetByIdResponse { Pizza = dto };
         }
 
-        public async Task<GetPizzaPaginationResponse?> GetByPageAsync(int pageNumber, int itemsOnPage)
+        public async Task<GetByPageResponse?> GetByPageAsync(int page, int size)
         {
-            var entities = await _pizzaProvider.GetByPage(pageNumber, itemsOnPage);
-            var dto = _mapper.Map<IReadOnlyCollection<PizzaDto>>(entities);
+            var entities = await _pizzaProvider.GetByPage(page, size);
+            var totalCount = await _pizzaProvider.GetTotalCount();
+            var totalPages = (int)Math.Ceiling((double)totalCount / size);
+            var dtoCollection = _mapper.Map<IReadOnlyCollection<PizzaDto>>(entities);
 
-            return entities is null ? null : new GetPizzaPaginationResponse { Pizza = dto };
+            return new GetByPageResponse()
+            {
+                TotalItems = totalCount,
+                TotalPages = totalPages,
+                CurrentPage = page,
+                Pizza = dtoCollection
+            };
         }
     }
 }

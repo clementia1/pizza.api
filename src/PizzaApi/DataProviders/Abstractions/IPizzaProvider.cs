@@ -8,7 +8,8 @@ namespace PizzaApi.DataProviders.Abstractions
 {
     public interface IPizzaProvider
     {
-        Task<PizzaEntity> AddAsync(string name);
+        Task<int> GetTotalCount();
+        Task<PizzaEntity> AddAsync(PizzaEntity pizza);
         Task<PizzaEntity?> GetById(int id);
         Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int pageNumber, int itemsOnPage);
     }

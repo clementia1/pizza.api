@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PizzaApi.Configuration;
 using PizzaApi.Filters;
+using PizzaApi.Models.GetById;
+using PizzaApi.Models.GetByPage;
 using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.Controllers
@@ -34,10 +36,10 @@ namespace PizzaApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetByPage(int pageNumber, int itemsOnPage = 10)
+        public async Task<IActionResult> GetByPage(int page, int size)
         {
-            var item = await _pizzaService.GetByPageAsync(pageNumber, itemsOnPage);
-            return item is null ? NotFound() : Ok(item);
+            var result = await _pizzaService.GetByPageAsync(page, size);
+            return result is null ? NotFound() : Ok(result);
         }
     }
 }

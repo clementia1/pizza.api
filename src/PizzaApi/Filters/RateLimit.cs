@@ -13,16 +13,16 @@ using PizzaApi.Models;
 
 namespace PizzaApi.Filters
 {
-    public class RateLimitAsyncResourceFilter : IAsyncActionFilter
+    public class RateLimit : IAsyncActionFilter
     {
         private readonly IHttpClientFactory _clientFactory;
-        private readonly ILogger<RateLimitAsyncResourceFilter> _logger;
+        private readonly ILogger<RateLimit> _logger;
         private readonly Config _config;
 
-        public RateLimitAsyncResourceFilter(
+        public RateLimit(
             IHttpClientFactory clientFactory,
             IOptions<Config> config,
-            ILogger<RateLimitAsyncResourceFilter> logger)
+            ILogger<RateLimit> logger)
         {
             _clientFactory = clientFactory;
             _logger = logger;
