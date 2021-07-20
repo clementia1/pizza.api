@@ -19,6 +19,10 @@ namespace PizzaApi.Automapper
 
             CreateMap<AddPizzaRequest, PizzaEntity>()
                 .AfterMap<SlugifyAction>();
+            CreateMap<IngredientDto, IngredientEntity>();
+            CreateMap<IngredientDto, PizzaIngredientEntity>()
+                .ForMember(dest => dest.IngredientId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Ingredient, opt => opt.MapFrom(src => src));
         }
     }
 }
