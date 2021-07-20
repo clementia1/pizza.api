@@ -34,6 +34,22 @@ namespace PizzaApi.DataProviders
             return result.Entity;
         }
 
+        public async Task<PizzaEntity?> Delete(int id)
+        {
+            var pizzaEntity = await _pizzasDbContext.Pizzas.SingleOrDefaultAsync(p => p.Id == id);
+
+            if (pizzaEntity == null)
+            {
+                return pizzaEntity;
+            }
+
+            _pizzasDbContext.PizzaIngredients.RemoveRange(pizzaEntity.Ingredients);
+            _pizzasDbContext.Remove(pizzaEntity);
+            await _pizzasDbContext.SaveChangesAsync();
+
+            return pizzaEntity;
+        }
+
         public async Task<PizzaEntity?> GetById(int id)
         {
             return await _pizzasDbContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);

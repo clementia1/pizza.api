@@ -9,7 +9,7 @@ using PizzaApi.Services.Abstractions;
 namespace PizzaApi.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]/[action]")]
+    [Route("api/v1/[controller]")]
     public class ManageController : ControllerBase
     {
         private readonly ILogger<ManageController> _logger;
@@ -27,9 +27,17 @@ namespace PizzaApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPizza(AddPizzaRequest request)
+        public async Task<IActionResult> Add(AddPizzaRequest request)
         {
-            return Ok(await _pizzaService.AddAsync(request));
+            var result = await _pizzaService.AddAsync(request);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _pizzaService.Delete(id);
+            return Ok(result);
         }
     }
 }

@@ -7,6 +7,7 @@ using PizzaApi.Data.Entities;
 using PizzaApi.DataProviders.Abstractions;
 using PizzaApi.Models;
 using PizzaApi.Models.Add;
+using PizzaApi.Models.Delete;
 using PizzaApi.Models.GetById;
 using PizzaApi.Models.GetByPage;
 using PizzaApi.Services.Abstractions;
@@ -56,6 +57,14 @@ namespace PizzaApi.Services
                 CurrentPage = page,
                 Pizza = dtoCollection
             };
+        }
+
+        public async Task<DeletePizzaResponse?> Delete(int id)
+        {
+            var result = await _pizzaProvider.Delete(id);
+            return result is null
+                ? new DeletePizzaResponse { Message = "Item not found" }
+                : new DeletePizzaResponse { Id = result.Id, Message = "Successfully removed from database" };
         }
     }
 }

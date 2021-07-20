@@ -34,7 +34,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Migrations" />
-      <Folder Include="Models\Delete" />
       <Folder Include="Models\Update" />
     </ItemGroup>
 </Project>
