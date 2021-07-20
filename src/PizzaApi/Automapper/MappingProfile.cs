@@ -13,12 +13,19 @@ namespace PizzaApi.Automapper
             CreateMap<PizzaEntity, PizzaDto>();
             CreateMap<IngredientEntity, IngredientDto>();
             CreateMap<PizzaIngredientEntity, IngredientDto>()
-                .ForMember(p => p.Id, opt => opt.MapFrom(pi => pi.Ingredient.Id))
-                .ForMember(p => p.Name, opt => opt.MapFrom(pi => pi.Ingredient.Name))
-                .ForMember(p => p.ImageUrl, opt => opt.MapFrom(pi => pi.Ingredient.ImageUrl));
+                .ForMember(
+                    dest => dest.Id,
+                    opt => opt.MapFrom(src => src.Ingredient.Id))
+                .ForMember(
+                    dest => dest.Name,
+                    opt => opt.MapFrom(src => src.Ingredient.Name))
+                .ForMember(
+                    dest => dest.ImageUrl,
+                    opt => opt.MapFrom(src => src.Ingredient.ImageUrl));
 
             CreateMap<AddPizzaRequest, PizzaEntity>()
                 .AfterMap<SlugifyAction>();
+
             CreateMap<IngredientDto, IngredientEntity>();
             CreateMap<IngredientDto, PizzaIngredientEntity>()
                 .ForMember(dest => dest.IngredientId, opt => opt.MapFrom(src => src.Id))
