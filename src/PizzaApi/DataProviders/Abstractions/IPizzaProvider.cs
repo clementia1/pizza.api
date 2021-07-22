@@ -11,6 +11,7 @@ namespace PizzaApi.DataProviders.Abstractions
         Task<int> GetTotalCount();
         Task<PizzaEntity> AddAsync(PizzaEntity pizza);
         Task<PizzaEntity?> GetById(int id);
+        Task<PizzaEntity?> GetBySlug(string slug);
         Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int pageNumber, int itemsOnPage);
         Task<PizzaEntity?> Delete(int id);
     }

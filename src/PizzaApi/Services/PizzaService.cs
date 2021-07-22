@@ -10,6 +10,7 @@ using PizzaApi.Models.Add;
 using PizzaApi.Models.Delete;
 using PizzaApi.Models.GetById;
 using PizzaApi.Models.GetByPage;
+using PizzaApi.Models.GetBySlug;
 using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.Services
@@ -41,6 +42,14 @@ namespace PizzaApi.Services
             var dto = _mapper.Map<PizzaDto>(entity);
 
             return new GetByIdResponse { Pizza = dto };
+        }
+
+        public async Task<GetBySlugResponse?> GetBySlugAsync(string slug)
+        {
+            var entity = await _pizzaProvider.GetBySlug(slug);
+            var dto = _mapper.Map<PizzaDto>(entity);
+
+            return new GetBySlugResponse { Pizza = dto };
         }
 
         public async Task<GetByPageResponse?> GetByPageAsync(int page, int size)

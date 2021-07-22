@@ -6,6 +6,7 @@ using PizzaApi.Configuration;
 using PizzaApi.Filters;
 using PizzaApi.Models.GetById;
 using PizzaApi.Models.GetByPage;
+using PizzaApi.Models.GetBySlug;
 using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.Controllers
@@ -29,9 +30,16 @@ namespace PizzaApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(GetByIdRequest request)
         {
-            var item = await _pizzaService.GetByIdAsync(id);
+            var item = await _pizzaService.GetByIdAsync(request.Id);
+            return item is null ? NotFound() : Ok(item);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetBySlug(GetBySlugRequest request)
+        {
+            var item = await _pizzaService.GetBySlugAsync(request.Slug);
             return item is null ? NotFound() : Ok(item);
         }
 

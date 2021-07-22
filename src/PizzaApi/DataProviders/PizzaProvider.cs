@@ -52,7 +52,12 @@ namespace PizzaApi.DataProviders
 
         public async Task<PizzaEntity?> GetById(int id)
         {
-            return await _pizzasDbContext.Pizzas.FirstOrDefaultAsync(p => p.Id == id);
+            return await _pizzasDbContext.Pizzas.SingleOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<PizzaEntity?> GetBySlug(string slug)
+        {
+            return await _pizzasDbContext.Pizzas.SingleOrDefaultAsync(p => p.Slug == slug);
         }
 
         public async Task<IReadOnlyCollection<PizzaEntity?>> GetByPage(int page, int size)
