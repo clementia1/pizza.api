@@ -30,16 +30,16 @@ namespace PizzaApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById(GetByIdRequest request)
+        public async Task<IActionResult> GetById(int id)
         {
-            var item = await _pizzaService.GetByIdAsync(request.Id);
+            var item = await _pizzaService.GetByIdAsync(id);
             return item is null ? NotFound() : Ok(item);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBySlug(GetBySlugRequest request)
+        public async Task<IActionResult> GetBySlug(string slug)
         {
-            var item = await _pizzaService.GetBySlugAsync(request.Slug);
+            var item = await _pizzaService.GetBySlugAsync(slug);
             return item is null ? NotFound() : Ok(item);
         }
 
