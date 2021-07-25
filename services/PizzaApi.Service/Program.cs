@@ -19,7 +19,7 @@ namespace PizzaApi.Service
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
-                .WriteTo.File("pizzaapi_log.txt")
+                .WriteTo.File("log.txt")
                 .CreateLogger();
 
             try
