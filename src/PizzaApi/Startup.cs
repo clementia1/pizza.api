@@ -52,19 +52,19 @@ namespace PizzaApi
             services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
             services.AddTransient<ICacheService<PizzaCacheEntity>, CacheService<PizzaCacheEntity>>();
             services.AddTransient<IJsonSerializer, JsonSerializer>();
+            services.AddTransient<IPizzaProvider, PizzaProvider>();
+            services.AddTransient<IPizzaService, PizzaService>();
+            services.AddScoped<IDbContextWrapper<PizzasDbContext>, DbContextWrapper<PizzasDbContext>>();
 
             services.Configure<Config>(AppConfiguration);
 
             var connectionString = AppConfiguration["PizzaApi:ConnectionString"];
-            services.AddDbContext<PizzasDbContext>(
+            services.AddDbContextFactory<PizzasDbContext>(
                 opts =>
                 {
                     opts.UseNpgsql(connectionString);
                     opts.UseSnakeCaseNamingConvention();
                 });
-
-            services.AddTransient<IPizzaProvider, PizzaProvider>();
-            services.AddTransient<IPizzaService, PizzaService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

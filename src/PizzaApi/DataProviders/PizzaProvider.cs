@@ -10,6 +10,7 @@ using PizzaApi.Data;
 using PizzaApi.Data.Entities;
 using PizzaApi.DataProviders.Abstractions;
 using PizzaApi.Models;
+using PizzaApi.Services.Abstractions;
 
 namespace PizzaApi.DataProviders
 {
@@ -19,10 +20,10 @@ namespace PizzaApi.DataProviders
         private readonly IMapper _mapper;
 
         public PizzaProvider(
-            PizzasDbContext pizzasDbContext,
+            IDbContextWrapper<PizzasDbContext> dbContextWrapper,
             IMapper mapper)
         {
-            _pizzasDbContext = pizzasDbContext;
+            _pizzasDbContext = dbContextWrapper.DbContext;
             _mapper = mapper;
         }
 
